@@ -6,7 +6,7 @@ const STORE = [
   {name: "milk", checked: true},
   {name: "bread", checked: false}
 ];
-
+console.log(STORE)
 
 function generateItemElement(item, itemIndex, template) {
   return `
@@ -81,11 +81,18 @@ function handleItemCheckClicked() {
   });
 }
 
+function removeItemShoppingList(itemIndex) {
+  console.log(`Deliting item ${itemIndex} from the list`)
+  STORE.splice(itemIndex, 1)
+}
 
-function handleDeleteItemClicked() {
-  // this function will be responsible for when users want to delete a shopping list
-  // item
-  console.log('`handleDeleteItemClicked` ran')
+function handleDeleteItemClicked(){
+  $('.js-item-index-element').on('click', `js-item-delete`, event => {
+    console.log('`handleDeleteItemClicked` ran');
+    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    removeItemShoppingList(itemIndex);
+    renderShoppingList();
+  });
 }
 
 // this function will be our callback when the page loads. it's responsible for
