@@ -93,8 +93,26 @@ function handleDeleteItemClicked(){
     removeItemShoppingList(itemIndex);
     renderShoppingList();
   });
+
+function searchItem() {
+  console.log(`searching for "${itemName}" in the shopping list`);
+  STORE.search(itemName);
 }
 
+  function handleSearchItem() {
+    $('#js-shopping-list-form').each(function () {
+      console.log('`handleNewSearchItem` ran');
+      const value = $('.js-shopping-list-entry').val('');
+        if ($(this).text().search(value) > -1) {
+            $(this).show();
+            $(this).prevAll('.header').first().show();
+        } else {
+            $(this).hide();
+        }
+      searchItem(itemName)
+      renderShoppingList();
+    })
+};
 // this function will be our callback when the page loads. it's responsible for
 // initially rendering the shopping list, and activating our individual functions
 // that handle new item submission and user clicks on the "check" and "delete" buttons
@@ -104,6 +122,7 @@ function handleShoppingList() {
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
+  handleSearchItem();
 }
 
 // when the page loads, call `handleShoppingList`
