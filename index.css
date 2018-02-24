@@ -45,3 +45,19 @@
   .shopping-item__checked {
     text-decoration: line-through;
   }
+
+  .shopping-item-add {
+    background-color: #b9fca9;
+  }
+
+  .shopping-item-search {
+    background-color: #96cfff;
+  }
+
+  .shopping-item-toggle {
+    background-color: #ffd696;
+  }
+
+  .shopping-item-delete {
+    background-color: #ff9696;
+  }
