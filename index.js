@@ -5,7 +5,7 @@ const STORE = {
     {name: 'apples', checked: false},
     {name: 'oranges', checked: false},
     {name: 'milk', checked: true},
-    {name: 'bread', checked: false}
+    {name: 'rye bread', checked: false}
   ]
 };
 
@@ -48,13 +48,34 @@ function addItemToShoppingList(itemName) {
 }
 
 function handleNewItemSubmit() {
-  $('#js-shopping-list-form').submit(function(event) {
+  $('#js-shopping-list-form').on('click', `.js-item-add`, event => {
     event.preventDefault();
     console.log('`handleNewItemSubmit` ran');
     const newItemName = $('.js-shopping-list-entry').val();
     $('.js-shopping-list-entry').val('');
     addItemToShoppingList(newItemName);
     renderShoppingList();
+  });
+}
+
+function searchList(searchedItem) {
+  console.log(searchedItem, 'searchlist item')
+  const arrSearch = STORE.items.filter(function(item){
+    return item.name.includes(searchedItem);
+  });
+  console.log(arrSearch, 'arrsearch')
+  const shoppingListSearch = generateShoppingItemsString(arrSearch);
+  // insert that HTML into the DOM
+  $('.js-shopping-list').html(shoppingListSearch);
+}
+
+function handleSearchList() {
+  $('#js-shopping-list-form').on('click', `.js-item-search`, event =>  {
+    event.preventDefault();
+    console.log('`handleSearchList` ran');
+    const searchedItem = $('.js-shopping-list-entry').val();
+    console.log(searchedItem, 'searcheditem')
+    searchList(searchedItem)
   });
 }
 
@@ -95,23 +116,23 @@ function handleDeleteItemClicked(){
 }
 
 function hideCheckedList(){
-  const filteredCheckedItems = STORE.items.filter( item => !item.checked);
+  const filteredCheckedItems = STORE.items.filter(item => !item.checked);
   const shoppingListItemsString = generateShoppingItemsString(filteredCheckedItems);
   $('.js-shopping-list').html(shoppingListItemsString);
-
   console.log(filteredCheckedItems);
   }
 
-function hangleCheckedList(){
-  $('.navigation').change( event => {
-     console.log('`hangleCheckedList` ran');
-     if( $('input[type=checkbox]').prop('checked')) {
+function handleCheckedList(){
+  $('.navigation').change(event => {
+     console.log('`handleCheckedList` ran');
+     if ($('input[type=checkbox]').prop('checked')) {
        hideCheckedList();
      } else {
        renderShoppingList();
      }
   });
 }
+
 
 
 // this function will be our callback when the page loads. it's responsible for
@@ -123,7 +144,8 @@ function handleShoppingList() {
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
-  hangleCheckedList();
+  handleCheckedList();
+  handleSearchList();
 }
 
 // when the page loads, call `handleShoppingList`
